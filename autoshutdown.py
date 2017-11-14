@@ -92,14 +92,15 @@ if len(touchedServers) == 0:
 stillUp = touchedServers
 while len(stillUp) > 0:
     print("Waiting for shutdown of " + str(len(stillUp)) + " servers");
-    print("\t" + str(datetime.datetime.now()))
     sleep(5)
 
     for server in touchedServers:
         if checkPing(server):
-            print("\t" + server + " is still up!")
+            dt = str(datetime.datetime.now())
+            print("\t" + server + " is still up at " + dt)
         else:
-            print("\t" + server + " went down.")
+            dt = str(datetime.datetime.now())
+            print("\t" + server + " went down at " + dt)
             stillUp.remove(server)
 
 print("The following servers were shut down by this invocation:")
