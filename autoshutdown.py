@@ -5,6 +5,7 @@ from sys import argv
 from time import sleep
 import socket
 import subprocess
+import datetime
 
 def checkPing(hostname):
     try:
