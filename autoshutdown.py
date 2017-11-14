@@ -18,8 +18,12 @@ def checkPing(hostname):
     return True
 
 if len(argv) < 3:
-    print("Usage: autoshutdown.py server_list rsa_private_key");
+    print("Usage: autoshutdown.py server_list rsa_private_key [dry]");
     exit(1)
+
+dry = False
+if len(argv) > 3 and argv[3] == "dry":
+    dry = True
 
 serverListFilename = argv[1]
 rsaPrivateKey = argv[2]
@@ -41,6 +45,8 @@ print("Servers to be powered off:")
 for server in upServers:
     print("\t" + server)
 
+if dry:
+    print("DRY RUN")
 confirm("Continue shutting off these servers?", abort=True);
 
 # Load and init the key
@@ -74,23 +80,27 @@ for server in upServers:
         except socket.timeout as error:
             print("Connection to " + server + " timed out.")
             continue;
-        client.exec_command("shutdown now")
+        if not dry:
+            client.exec_command("shutdown now")
         touchedServers += [server]
 
 if len(touchedServers) == 0:
     print("Touched 0 servers! Nothing was done.")
     exit(1)
 
-allDown = False
-while not allDown:
-    print("Waiting for shutdown...");
+stillUp = touchedServers
+while len(stillUp) > 0:
+    print("Waiting for shutdown of " + str(len(stillUp)) + " servers");
+    print("\t" + str(datetime.datetime.now()))
     sleep(5)
 
-    allDown = True
     for server in touchedServers:
         if checkPing(server):
-            print(server + " is still up!")
-            allDown = False
+            print("\t" + server + " is still up!")
+        else:
+            print("\t" + server + " went down.")
+            stillUp.remove(server)
+
 print("The following servers were shut down by this invocation:")
 for server in touchedServers:
     print("\t" + server)
