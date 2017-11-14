@@ -7,12 +7,15 @@ import socket
 import subprocess
 
 def checkPing(hostname):
-    response = subprocess.run(
-            ["/bin/ping", "-c1", "-w2", hostname], 
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
-    ).returncode;
-    return response == 0
+    try:
+        subprocess.check_call(
+                ["/bin/ping", "-c1", "-w2", hostname], 
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE
+        );
+    except subprocess.CalledProcessError as e:
+        return False;
+    return True
 
 if len(argv) < 3:
     print("Usage: autoshutdown.py server_list rsa_private_key");
