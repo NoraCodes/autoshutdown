@@ -82,7 +82,7 @@ for server in upServers:
             print("Connection to " + server + " timed out.")
             continue;
         if not dry:
-            client.exec_command("shutdown now")
+            client.exec_command("shutdown -h now")
         touchedServers += [server]
 
 if len(touchedServers) == 0:
