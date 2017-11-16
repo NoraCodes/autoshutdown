@@ -1,7 +1,8 @@
 bin/
 lib64
 pyvenv.cfg
-servers.txt
+*.txt
+*.b64
 share/
 testkey/
 
