@@ -37,12 +37,12 @@ test.your.domain.net admin lmaoThisis_a_bad_Password
 Then, encrypt this file with `encdec`:
 
 ```
-./encdec.py enc servers.txt servers.txt.b64
+./encdec.py enc servers.txt
 ```
 
 Finally, run the script (try dry mode first):
 
 ```
-./autoshutdown_windows.py servers.txt.b64 dry
+./autoshutdown_windows.py servers.txt dry
 ```
 

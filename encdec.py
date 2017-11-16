@@ -8,9 +8,9 @@ import cryptography
 from cryptography.fernet import Fernet
 from click import prompt
 
-USAGE = "Usage: \n\tencdec.py enc input output\n\tencdec.py dec input output"
+USAGE = "Usage: \n\tencdec.py enc <file>\n\tencdec.py dec <file>"
 
-if len(argv) != 4:
+if len(argv) != 3:
     print("Not enough arguments.")
     print(USAGE)
     exit(1)
@@ -22,7 +22,6 @@ if argv[1].lower() not in ["enc", "dec"]:
 
 COMMAND = argv[1].lower()
 INPUT_FILENAME = argv[2]
-OUTPUT_FILENAME = argv[3]
 
 # Try to read from the file.
 DATA_IN = b""
@@ -59,7 +58,7 @@ elif COMMAND == "dec":
 else:
     raise TypeError("INVALID COMMAND " + COMMAND)
 
-with open(OUTPUT_FILENAME, "wb") as f:
+with open(INPUT_FILENAME, "wb") as f:
     f.write(DATA_OUT)
 
 print("Completed successfully!")
