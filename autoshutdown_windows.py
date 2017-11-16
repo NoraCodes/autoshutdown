@@ -152,7 +152,8 @@ while STILL_UP:
     print("Waiting for shutdown of " + str(len(STILL_UP)) + " servers")
     sleep(DELAY)
 
-    for server in TOUCHED_SERVERS:
+    for line in TOUCHED_SERVERS:
+        server = line[0]
         if check_ping(server):
             dt = str(datetime.datetime.now())
             print("\t" + server + " is still up within " + str(DELAY) + " seconds of " + dt)
